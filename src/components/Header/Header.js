@@ -1,10 +1,16 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { Container } from "./styled";
+import { Container, Icon } from "./styled";
 
 const Header = () => {
   return (
     <Container>
-      <h3>Menu</h3>
+      <h3>
+        <Icon>
+          <FontAwesomeIcon icon="fa-solid fa-house" />
+        </Icon>
+        Menu
+      </h3>
     </Container>
   );
 };
