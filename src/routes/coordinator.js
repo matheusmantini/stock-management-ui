@@ -5,3 +5,7 @@ export const goToHomePage = (navigate) => {
 export const goToProductsPage = (navigate) => {
   navigate(`/produtos/`);
 };
+
+export const goToOrdersPage = (navigate) => {
+  navigate(`/pedidos/`);
+};

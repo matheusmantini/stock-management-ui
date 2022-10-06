@@ -1,20 +1,32 @@
 import React from "react";
-import { goToProductsPage } from "../../routes/coordinator";
-import { useNavigate } from "react-router-dom";
-import { ButtonsContainer } from "./styled";
+import { goToProductsPage, goToOrdersPage } from "../../routes/coordinator";
+import { Container, LeftCard, RightCard } from "./styled";
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
+import Button from "../../components/Button/Button";
 
 const HomePage = () => {
-  const navigate = useNavigate();
   return (
     <>
       <Header />
-      <h1>Bem vindo(a) ao Shopper System</h1>
-      <ButtonsContainer>
-        <button onClick={() => goToProductsPage(navigate)}>
-          Ver página de produtos
-        </button>
-      </ButtonsContainer>
+      <Container>
+        <LeftCard>
+          <Button
+            text="Produtos"
+            type="products"
+            icon="fa-solid fa-boxes-stacked"
+            onclick={goToProductsPage}
+          />
+        </LeftCard>
+        <RightCard>
+          <Button
+            text="Pedidos"
+            icon="fa-solid fa-list"
+            onclick={goToOrdersPage}
+          />
+        </RightCard>
+      </Container>
+      <Footer />
     </>
   );
 };
