@@ -1,21 +1,30 @@
-import { useState, useEffect } from "react"
-import { BASE_URL } from '../constants/urls'
-import axios from "axios"
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-const useRequestData = (endpoint, initialState) => {
-    const [data, setData] = useState(initialState)
+const useRequestData = (url) => {
+  const [data, setData] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(undefined);
 
-    const getData = () => {
-        axios.get(`${BASE_URL}${endpoint}`)
-        .then((res) => setData(res.data))
-        .catch((err) => alert(err.response.data.message))
-    }
+  const getData = () => {
+    setIsLoading(true);
+    setError(undefined);
+    axios
+      .get(url)
+      .then((res) => {
+        setIsLoading(false);
+        setData(res.data);
+      })
+      .catch((err) => {
+        setError(err);
+        setIsLoading(false);
+      });
+  };
+  useEffect(() => {
+    getData();
+  }, []);
 
-    useEffect(() => {
-        getData()
-    }, [endpoint])
+  return [data, isLoading, error];
+};
 
-    return [data, getData]
-}
-
-export default useRequestData
+export default useRequestData;
