@@ -1,13 +1,23 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { Card, Container } from "./styled";
+import Footer from "../../components/Footer/Footer";
+import Header from "../../components/Header/Header";
+import { Card, Container, Icon } from "./styled";
 
 const ErrorPage = () => {
   return (
-    <Container>
-      <Card>
-        <h2>Página não encontrada!</h2>
-      </Card>
-    </Container>
+    <>
+      <Header />
+        <Container>
+          <Card>
+            <Icon>
+              <FontAwesomeIcon icon="fa-solid fa-triangle-exclamation" />
+            </Icon>
+            <h2>Página não encontrada!</h2>
+          </Card>
+        </Container>
+      <Footer />
+    </>
   );
 };
 

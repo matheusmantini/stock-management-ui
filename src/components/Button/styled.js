@@ -7,13 +7,12 @@ export const Container = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px dashed
-    ${(props) => (props.type === "products" ? "white" : "black")};
+  border: 2px solid var(--color-light-green);
   cursor: pointer;
-  background-color: transparent;
-  color: rgb(82, 181, 145);
+  background-color: ${(props) => (props.type === "products" ? "var(--color-white)" : "var(--color-black)")};;
+  color: var(--color-light-green);
   :hover {
-    opacity: 0.5;
+    opacity: 0.8;
   }
 `;
 

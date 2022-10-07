@@ -8,6 +8,16 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 
+  :root {
+    --color-light-green: rgb(82, 181, 145);
+    --color-dark-green: rgb(30, 105, 77);
+    --color-black: rgb(25, 25, 25);
+    --color-white: rgb(240, 240, 240);
+    --color-grey: rgb(120, 120, 120);
+    --color-yellow: rgb(164, 168, 50);
+    --color-red: rgb(220, 20, 60);
+  }
+
 `;
 
 export default GlobalStyle;

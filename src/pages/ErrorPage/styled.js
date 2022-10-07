@@ -2,12 +2,10 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
-  color: rgb(1, 73, 99);
+  height: calc(100vh - 100px);
+  z-index: 1;
 `;
 
 export const Card = styled.div`
@@ -18,8 +16,9 @@ export const Card = styled.div`
   height: 250px;
   width: 350px;
   background-color: white;
+  border: 1px solid var(--color-light-green);
   border-radius: 15px;
-  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+  color: var(--color-dark-green);
   h2 {
     text-align: center;
   }
@@ -27,10 +26,15 @@ export const Card = styled.div`
     font-size: 150px;
   }
   @media screen and (max-width: 767px) {
-    height: 45%;
+    height: 30%;
     width: 90%;
+    font-size: 12px;
     i {
-      font-size: 100px;
+      font-size: 60px;
     }
   }
+`;
+
+export const Icon = styled.i`
+  color: var(--color-yellow);
 `;
