@@ -131,6 +131,15 @@ export const DeleteButton = styled.button`
   }
 `;
 
+/* Itens Pedido */
+
+export const ItensPedido = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+`;
+
 /* Erro */
 
 export const ContainerEmptyMessage = styled.div`

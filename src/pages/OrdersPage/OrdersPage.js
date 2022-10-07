@@ -19,8 +19,10 @@ import {
   ContainerEmptyMessage,
   ContainerPage,
   ContainerContent,
+  ItensPedido
 } from "./styled";
 import Loading from "../../components/Loading/Loading";
+import axios from "axios";
 
 const OrdersPage = () => {
   const [data, isLoading, error] = useRequestData(`${BASE_URL}/orders`);
@@ -30,9 +32,17 @@ const OrdersPage = () => {
     data.map((pedido) => {
       let deliveryDate = new Date(pedido.delivery_date).toLocaleDateString();
 
-      const itemsListId = pedido.items_list_id.map((item) => {
-        return <li>{item}</li>
+      const itensList = pedido.items_list_id.map((item) => {
+        const itens = async () => {
+          const itensFinal = await axios.get(`${BASE_URL}/items-list/${item}`);
+          console.log("itensFinal",itensFinal.data.product_id, itensFinal.data.quantity);
+          return itensFinal.data.product_id;
+        }
+
+        itens();
       })
+
+
 
       return (
         <CardOrder key={pedido.id}>
@@ -64,7 +74,7 @@ const OrdersPage = () => {
             <br />
             <p>Data de Entrega: {deliveryDate}</p>
             <br />
-            <p>Itens do Pedido: <ul>{itemsListId}</ul></p>
+            <ItensPedido>Itens do Pedido: <ul>{itensList}</ul></ItensPedido>
           </CardOrderContent>
         </CardOrder>
       );
