@@ -20,6 +20,9 @@ import {
   ContainerPage,
   ContainerContent,
   ItensPedido,
+  CardItens,
+  ContainerShoppingItems,
+  CardTotal,
 } from "./styled";
 import Loading from "../../components/Loading/Loading";
 
@@ -38,11 +41,27 @@ const OrdersPage = () => {
 
         const shoppingList = pedido.shopping_list;
 
-        const shoppingItems = shoppingList.map(({ product, quantity, price }) => (
-          <li>
-            {product} - {quantity} - {price}
-          </li>
-        ));
+        const shoppingItems = shoppingList.map(
+          ({ product, quantity, price }) => (
+            <>
+              <CardItens>
+                <p>
+                  <b>Produto:</b> {product}
+                </p>
+                <p>
+                  <b>Quantidade:</b> {quantity}
+                </p>
+                <p>
+                  <b>Preço Unitário:</b>{" "}
+                  {new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(price)}
+                </p>
+              </CardItens>
+            </>
+          )
+        );
 
         return (
           <CardOrder key={pedido.id}>
@@ -76,18 +95,17 @@ const OrdersPage = () => {
               <br />
               <ItensPedido>
                 Itens do Pedido:{" "}
-                <ul>
+                <ContainerShoppingItems>
                   {shoppingItems}
-                </ul>
+                </ContainerShoppingItems>
               </ItensPedido>
-              <br />
-              <p>
+              <CardTotal>
                 Total:{" "}
                 {new Intl.NumberFormat("pt-BR", {
                   style: "currency",
                   currency: "BRL",
                 }).format(pedido.total_amount)}
-              </p>
+              </CardTotal>
             </CardOrderContent>
           </CardOrder>
         );
