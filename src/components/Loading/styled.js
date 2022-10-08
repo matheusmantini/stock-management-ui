@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from "styled-components";
 
 export const sideToSideSlide = keyframes`
   0%{
@@ -10,9 +10,9 @@ export const sideToSideSlide = keyframes`
 `;
 
 export const LoadingSlider = styled.div`
-  border: 1.6rem solid rgb(119, 180, 201);
+  border: 1.6rem solid var(--color-light-green);
   border-radius: 50%;
-  border-top: 1.6rem solid rgb(1, 73, 99);
+  border-top: 1.6rem solid var(--color-dark-green);
   width: 6rem;
   height: 6rem;
   animation: ${sideToSideSlide} 1.5s linear infinite;

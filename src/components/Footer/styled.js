@@ -8,7 +8,6 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   border-top: 1px solid var(--color-grey);
-  margin-top: 50px;
 `;
 
 export const Text = styled.p`

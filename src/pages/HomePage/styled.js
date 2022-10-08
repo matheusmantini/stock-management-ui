@@ -4,8 +4,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: calc(100vh - 60px - 40px);
-  z-index: 1;
+  height: calc(100vh - 100px);
 `;
 
 export const LeftCard = styled.div`
