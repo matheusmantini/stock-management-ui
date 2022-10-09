@@ -9,3 +9,7 @@ export const goToProductsPage = (navigate) => {
 export const goToOrdersPage = (navigate) => {
   navigate(`/pedidos/`);
 };
+
+export const goToCreateOrderPage = (navigate) => {
+  navigate(`/pedidos/criar/`);
+};

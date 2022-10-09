@@ -63,6 +63,9 @@ export const CardOrderTitle = styled.div`
   text-align: center;
   font-size: 26px;
   padding-top: 10px;
+  color: var(--color-white);
+  background-color: var(--color-dark-green);
+  border-radius: 10px 10px 0 0;
   @media screen and (max-width: 1024px) {
     font-size: 22px;
   }
@@ -92,7 +95,7 @@ export const Icon = styled.div`
 `;
 
 export const IdPedido = styled.p`
-  margin-right: 20px;
+  font-weight: bold;
 `;
 
 export const ButtonsContainer = styled.div`
@@ -101,11 +104,12 @@ export const ButtonsContainer = styled.div`
   align-content: center;
   width: 100px;
   border-radius: 10px;
+  margin: 8px 0;
 `;
 
 export const EditButton = styled.button`
-  color: var(--color-yellow);
-  background-color: transparent;
+  color: var(--color-white);
+  background-color: var(--color-yellow);
   height: 32px;
   width: 48px;
   border: 0;
@@ -123,10 +127,10 @@ export const EditButton = styled.button`
 `;
 
 export const DeleteButton = styled.button`
-  color: var(--color-red);
-  background-color: transparent;
+  color: var(--color-white);
+  background-color: var(--color-red);
   height: 32px;
-  width: 48px;
+  width: 42px;
   border: 0;
   cursor: pointer;
   opacity: 1;
@@ -150,7 +154,15 @@ export const ItensPedido = styled.div`
   align-items: flex-start;
 `;
 
-export const ContainerShoppingItems = styled.ul`
+export const ContainerInput = styled.ul`
+  width: 100%;
+`;
+
+export const CardInputs = styled.p`
+  border: 1px solid var(--color-dark-green);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px 0;
   width: 100%;
 `;
 
@@ -164,16 +176,15 @@ export const CardItens = styled.li`
 `;
 
 export const CardTotal = styled.p`
-         border: 1px solid var(--color-dark-green);
-         border-radius: 10px;
-         padding: 10px;
-         margin: 10px 0;
-         width: 100%;
-         text-align: center;
-         font-size: 18px;
-         font-weight: bold;
-         background-color: var(--color-light-green);
-       `;
+  border: 1px solid var(--color-dark-green);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px 0;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+`;
 
 /* Erro */
 
@@ -187,7 +198,7 @@ export const ContainerEmptyMessage = styled.div`
     color: rgb(1, 73, 99);
     padding: 10px 20px;
     border-radius: 15px;
-    background-color: white;
+    background-color: var(--color-white);
     text-align: center;
   }
 `;

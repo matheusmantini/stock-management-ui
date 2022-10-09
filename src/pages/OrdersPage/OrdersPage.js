@@ -20,8 +20,8 @@ import {
   ContainerPage,
   ContainerContent,
   ItensPedido,
-  CardItens,
-  ContainerShoppingItems,
+  CardInputs,
+  ContainerInput,
   CardTotal,
 } from "./styled";
 import Loading from "../../components/Loading/Loading";
@@ -44,7 +44,7 @@ const OrdersPage = () => {
         const shoppingItems = shoppingList.map(
           ({ product, quantity, price }) => (
             <>
-              <CardItens>
+              <CardInputs>
                 <p>
                   <b>Produto:</b> {product}
                 </p>
@@ -58,7 +58,7 @@ const OrdersPage = () => {
                     currency: "BRL",
                   }).format(price)}
                 </p>
-              </CardItens>
+              </CardInputs>
             </>
           )
         );
@@ -69,6 +69,7 @@ const OrdersPage = () => {
               <IdPedido>#{pedido.id}</IdPedido>
               <ButtonsContainer>
                 <EditButton
+                  title="Editar pedido"
                   onClick={() => {
                     alert("Página de Edição do pedido! #sqn");
                   }}
@@ -78,6 +79,7 @@ const OrdersPage = () => {
                   </Icon>
                 </EditButton>
                 <DeleteButton
+                  title="Deletar pedido"
                   onClick={() => {
                     alert("Pedido deletado com sucessso! #sqn");
                   }}
@@ -89,15 +91,13 @@ const OrdersPage = () => {
               </ButtonsContainer>
             </CardOrderTitle>
             <CardOrderContent>
-              <p>Cliente: {pedido.client_name}</p>
-              <br />
-              <p>Data de Entrega: {deliveryDate}</p>
-              <br />
+              <p>Cliente: </p>
+              <CardInputs>{pedido.client_name}</CardInputs>
+              <p>Data de Entrega: </p>
+              <CardInputs>{deliveryDate}</CardInputs>
               <ItensPedido>
                 Itens do Pedido:{" "}
-                <ContainerShoppingItems>
-                  {shoppingItems}
-                </ContainerShoppingItems>
+                <ContainerInput>{shoppingItems}</ContainerInput>
               </ItensPedido>
               <CardTotal>
                 Total:{" "}
@@ -116,7 +116,7 @@ const OrdersPage = () => {
     <ContainerPage>
       <Header />
       <ContainerContent>
-        <CardTitle title="Pedidos" />
+        <CardTitle title="Pedidos" hasButton={true} />
         <Container>
           {isLoading && <Loading />}
           {!isLoading && error && (

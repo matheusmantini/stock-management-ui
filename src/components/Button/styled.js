@@ -9,7 +9,7 @@ export const Container = styled.button`
   align-items: center;
   border: 2px solid var(--color-light-green);
   cursor: pointer;
-  background-color: ${(props) => (props.type === "products" ? "var(--color-white)" : "var(--color-black)")};;
+  background-color: ${(props) => (props.type === "products" ? "var(--color-white)" : "var(--color-black)")};
   color: var(--color-light-green);
   :hover {
     opacity: 0.8;
