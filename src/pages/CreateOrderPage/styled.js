@@ -65,6 +65,24 @@ export const Input = styled.input`
   width: 100%;
 `;
 
+export const LabelForm = styled.h2`
+  font-style: italic;
+  font-size: 18px;
+  margin-top: 10px;
+`;
+
+export const TotalTag = styled.div`
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--color-dark-green);
+  border-radius: 10px;
+  font-weight: bold;
+  padding: 10px;
+  margin: 10px 0;
+  width: 20%;
+`;
+
 export const ProductAdded = styled.p`
   border: 1px solid var(--color-dark-green);
   border-radius: 10px;
@@ -215,7 +233,7 @@ export const ContainerEmptyMessage = styled.div`
   grid-column: 1/-1;
   padding: 0;
   h3 {
-    color: rgb(1, 73, 99);
+    color: var(--color-dark-green);
     padding: 10px 20px;
     border-radius: 15px;
     background-color: var(--color-white);

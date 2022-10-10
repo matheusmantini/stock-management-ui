@@ -28,7 +28,9 @@ import {
   ButtonsContainer,
   EditButton,
   DeleteButton,
-  ContainerEmptyMessage
+  ContainerEmptyMessage,
+  TotalTag,
+  LabelForm
 } from "./styled";
 
 const CreateOrderPage = (props) => {
@@ -227,11 +229,11 @@ const CreateOrderPage = (props) => {
         <ContainerCardForm>
           <CardForm>
             <CustomForm>
-              <label>Cliente: </label>
+              <LabelForm>Cliente </LabelForm>
               <Input name="client_name" type="text" value={clientName} onChange={onChangeClientName} />
-              <label>Data de Entrega: </label>
+              <LabelForm>Data de Entrega </LabelForm>
               <Input name="delivery_date" type="date" value={deliveryDate} onChange={onChangeDeliveryDate} />
-              <label>Adicionar Produtos: </label>
+              <LabelForm>Adicionar Produtos </LabelForm>
               <ContainerFormProducts onSubmit={onSubmitAddProductToList}>
                 <SelectFormProducts name="product_id"  value={productId} onChange={onChangeProductId}>
                 <option label=" -- Selecione uma opção -- "></option>
@@ -246,16 +248,15 @@ const CreateOrderPage = (props) => {
                   </Icon>
                 </AddButton>
               </ContainerFormProducts>
-              <label>Produtos Adicionados: </label>
+              <LabelForm>Produtos Adicionados </LabelForm>
               <ContainerAddedProducts>
               {listOfProductsAddedToOrder && listOfProductsAddedToOrder.length > 0 ? listOfProductsAddedToOrder : <ContainerEmptyMessage><h3>Não há produtos adicionados</h3></ContainerEmptyMessage>}
               </ContainerAddedProducts>
-              <br/>
-              <label>ValorTotal: </label>
-              <b>{new Intl.NumberFormat("pt-BR", {
+              <LabelForm>ValorTotal </LabelForm>
+              <TotalTag>{new Intl.NumberFormat("pt-BR", {
                   style: "currency",
                   currency: "BRL",
-                }).format(totalOrderAmount)}</b>
+                }).format(totalOrderAmount)}</TotalTag>
               <ContainerSendButton>
                 <SendButton onClick={onClickAddNewOrder}>Enviar</SendButton>
               </ContainerSendButton>
