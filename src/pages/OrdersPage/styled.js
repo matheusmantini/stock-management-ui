@@ -166,6 +166,10 @@ export const CardInputs = styled.p`
   width: 100%;
 `;
 
+export const ItemInput = styled.p`
+  margin: 10px 0;
+`;
+
 export const CardItens = styled.li`
   list-style: none;
   border: 1px solid var(--color-dark-green);

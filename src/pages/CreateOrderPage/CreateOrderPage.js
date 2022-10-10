@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import CardTitle from "../../components/CardTitle/CardTitle";
 import Footer from "../../components/Footer/Footer";
@@ -15,7 +14,7 @@ import {
 } from "./styled";
 
 const CreateOrderPage = (props) => {
-  const [data, isLoading, error] = useRequestData(`${BASE_URL}/products`);
+  const [data] = useRequestData(`${BASE_URL}/products`);
   console.log(data);
 
   return (

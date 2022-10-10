@@ -23,6 +23,7 @@ import {
   CardInputs,
   ContainerInput,
   CardTotal,
+  ItemInput
 } from "./styled";
 import Loading from "../../components/Loading/Loading";
 
@@ -37,7 +38,7 @@ const OrdersPage = () => {
       data.map((pedido) => {
         const deliveryDate = new Date(
           pedido.delivery_date
-        ).toLocaleDateString();
+        ).toLocaleDateString('pt-BR');
 
         const shoppingList = pedido.shopping_list;
 
@@ -45,19 +46,19 @@ const OrdersPage = () => {
           ({ product, quantity, price }) => (
             <>
               <CardInputs>
-                <p>
+                <ItemInput>
                   <b>Produto:</b> {product}
-                </p>
-                <p>
+                </ItemInput>
+                <ItemInput>
                   <b>Quantidade:</b> {quantity}
-                </p>
-                <p>
+                </ItemInput>
+                <ItemInput>
                   <b>Preço Unitário:</b>{" "}
                   {new Intl.NumberFormat("pt-BR", {
                     style: "currency",
                     currency: "BRL",
                   }).format(price)}
-                </p>
+                </ItemInput>
               </CardInputs>
             </>
           )
