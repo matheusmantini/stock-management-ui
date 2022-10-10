@@ -24,7 +24,11 @@ import {
   ProductAdded,
   ContainerAddedProducts,
   CardInputs,
-  ItemInput
+  ItemInput,
+  ButtonsContainer,
+  EditButton,
+  DeleteButton,
+  ContainerEmptyMessage
 } from "./styled";
 
 const CreateOrderPage = (props) => {
@@ -73,25 +77,40 @@ const CreateOrderPage = (props) => {
     
     const addProductToList = async() => {
 
+      let validate = false;
+
       const BODY = {
         product_id: productId,
         quantity: +quantity
       }
-      console.log("BODY",BODY);
 
-      try {
-        const itemList = await axios
-      .post(
-        `${BASE_URL}/items-list`,
-        BODY,
-      );
-      setProductsListId([...productsListId,itemList.data.id]);
-      setProductId(' ');
-      setQuantity(0);
-      return itemList;
-      } catch (error) {
-        alert("Houve um erro e o produto não pôde ser cadastrado com sucesso!"); 
+
+      listOfOrdersProducts && listOfOrdersProducts.forEach((product) => {
+        if (product.product_id === productId) {
+          setProductId(' ');
+          setQuantity(0);
+          alert("O produto selecionado já foi adicionado ao pedido!");
+          validate = true;
+        }
+      });
+
+      if(!validate){
+        try {
+          const itemList = await axios
+        .post(
+          `${BASE_URL}/items-list`,
+          BODY,
+        );
+        setProductsListId([...productsListId,itemList.data.id]);
+        setProductId(' ');
+        setQuantity(0);
+        return itemList;
+        } catch (error) {
+          alert("Houve um erro e o produto não pôde ser cadastrado com sucesso!"); 
+        }
       }
+      return;
+      
     }
     addProductToList();
 
@@ -103,13 +122,12 @@ const CreateOrderPage = (props) => {
     productsListId && productsListId.map(async(productId) => {
       const product = await axios.get(`${BASE_URL}/items-list/${productId}`);
       setListOfOrdersProducts([...listOfOrdersProducts,product.data])
-      console.log("data", product.data);
     })
   },[productsListId])
   
   const listOfProductsAddedToOrder = listOfOrdersProducts && listOfOrdersProducts.map((product) => {
     totalOrderAmount += product.total;
-    return (<CardInputs key={product.product_name}>
+    return (<CardInputs key={Math.floor(Math.random() * Math.random())}>
       <ItemInput>
         <b>Produto:</b> {product.product_name}
       </ItemInput>
@@ -123,6 +141,47 @@ const CreateOrderPage = (props) => {
           currency: "BRL",
         }).format(product.price)}
       </ItemInput>
+      <ButtonsContainer>
+        <EditButton
+          title="Editar quantidade"
+          onClick={() => {
+            const newQuantity = prompt('Digite a nova quantidade: ');
+            product.quantity = newQuantity;
+            alert("Página de Edição da quantidade! #sqn");
+          }}
+        >
+          <Icon>
+            <FontAwesomeIcon icon="fa-regular fa-pen-to-square" />
+          </Icon>
+        </EditButton>
+        <DeleteButton
+          title="Deletar produto do pedido"
+          onClick={async () => {
+            try {
+              await axios
+            .delete(
+              `${BASE_URL}/items-list/${product.item_list_id}`);
+
+              if(productsListId.includes(product.item_list_id)){
+              const newListOrderProducts = listOfOrdersProducts.filter((productOrder)=>{
+                return productOrder.item_list_id !== product.item_list_id;
+              });
+              setListOfOrdersProducts(newListOrderProducts);
+
+            }                            
+
+            alert("Produto deletado do pedido com sucessso! #sqn");
+          }catch(err){
+            alert("Houve um erro e o produto não pôde ser deletado.");
+          }
+            
+        }}
+        >
+          <Icon>
+            <FontAwesomeIcon icon="fa-solid fa-x" />
+          </Icon>
+        </DeleteButton>
+      </ButtonsContainer>
     </CardInputs>)
   })
 
@@ -189,7 +248,7 @@ const CreateOrderPage = (props) => {
               </ContainerFormProducts>
               <label>Produtos Adicionados: </label>
               <ContainerAddedProducts>
-                {listOfProductsAddedToOrder}
+              {listOfProductsAddedToOrder && listOfProductsAddedToOrder.length > 0 ? listOfProductsAddedToOrder : <ContainerEmptyMessage><h3>Não há produtos adicionados</h3></ContainerEmptyMessage>}
               </ContainerAddedProducts>
               <br/>
               <label>ValorTotal: </label>

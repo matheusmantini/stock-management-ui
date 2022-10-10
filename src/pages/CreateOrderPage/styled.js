@@ -160,3 +160,65 @@ export const AddButton = styled.button`
     opacity: 0.8;
   }
 `;
+
+export const ButtonsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  width: 100px;
+  border-radius: 10px;
+  margin: 8px 0;
+`;
+
+export const EditButton = styled.button`
+  color: var(--color-white);
+  background-color: var(--color-yellow);
+  height: 32px;
+  width: 48px;
+  border: 0;
+  cursor: pointer;
+  opacity: 1;
+  border-radius: 10px;
+  :hover {
+    opacity: 0.5;
+    background-color: var(--color-yellow);
+    color: var(--color-white);
+  }
+  :active {
+    opacity: 0.8;
+  }
+`;
+
+export const DeleteButton = styled.button`
+  color: var(--color-white);
+  background-color: var(--color-red);
+  height: 32px;
+  width: 42px;
+  border: 0;
+  cursor: pointer;
+  opacity: 1;
+  border-radius: 10px;
+  :hover {
+    opacity: 0.5;
+    background-color: var(--color-red);
+    color: var(--color-white);
+  }
+  :active {
+    opacity: 0.8;
+  }
+`;
+
+export const ContainerEmptyMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: 1/-1;
+  padding: 0;
+  h3 {
+    color: rgb(1, 73, 99);
+    padding: 10px 20px;
+    border-radius: 15px;
+    background-color: var(--color-white);
+    text-align: center;
+  }
+`;
