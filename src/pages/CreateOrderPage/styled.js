@@ -73,6 +73,18 @@ export const ProductAdded = styled.p`
   width: 100%;
 `;
 
+export const CardInputs = styled.div`
+  border: 1px solid var(--color-dark-green);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px 0;
+  width: 100%;
+`;
+
+export const ItemInput = styled.p`
+  margin: 10px 0;
+`;
+
 export const ContainerAddedProducts = styled.div`
   width: 100%;
 `;

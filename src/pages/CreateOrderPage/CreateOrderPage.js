@@ -22,7 +22,9 @@ import {
   ContainerSendButton,
   SendButton,
   ProductAdded,
-  ContainerAddedProducts
+  ContainerAddedProducts,
+  CardInputs,
+  ItemInput
 } from "./styled";
 
 const CreateOrderPage = (props) => {
@@ -33,11 +35,22 @@ const CreateOrderPage = (props) => {
     return <option key={produto.id} value={produto.id}>{produto.name}</option>
   })
 
+  const [clientName, setClientName] = useState('');
+  const [deliveryDate, setDeliveryDate] = useState('');
+  let [totalOrderAmount, setTotalOrderAmount] = useState(0);
   const [listOfOrdersProducts, setListOfOrdersProducts] = useState([]);
   const [productsListId, setProductsListId] = useState([]);
   const [productItem, setProductItem] = useState({});
   const [productId, setProductId] = useState(' ');
   const [quantity, setQuantity] = useState(0);
+
+  const onChangeClientName = (event) => {
+    setClientName(event.target.value);
+  }
+
+  const onChangeDeliveryDate = (event) => {
+    setDeliveryDate(event.target.value);
+  }
 
   const onChangeProductId = (event) => {
     setProductId(event.target.value);
@@ -95,9 +108,57 @@ const CreateOrderPage = (props) => {
   },[productsListId])
   
   const listOfProductsAddedToOrder = listOfOrdersProducts && listOfOrdersProducts.map((product) => {
-    return <ProductAdded>Produto: {product.product_name} / Quantidade: {product.quantity}</ProductAdded>
+    totalOrderAmount += product.total;
+    return (<CardInputs key={product.product_name}>
+      <ItemInput>
+        <b>Produto:</b> {product.product_name}
+      </ItemInput>
+      <ItemInput>
+        <b>Quantidade:</b> {product.quantity}
+      </ItemInput>
+      <ItemInput>
+        <b>Preço Unitário:</b>{" "}
+        {new Intl.NumberFormat("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        }).format(product.price)}
+      </ItemInput>
+    </CardInputs>)
   })
 
+  /* Request to Add New Order */
+
+  const onClickAddNewOrder = async () => {
+
+    if(clientName === '' || deliveryDate === '' || productsListId.length < 1){
+      alert("Informe o nome do cliente, data de entrega e escolha um produto");
+      return;
+    }
+
+      const BODY = {
+        delivery_date: new Date(deliveryDate).toISOString(),
+        client_name: clientName,
+        items_list_id: productsListId
+      }
+
+      try {
+        const newOrder = await axios
+      .post(
+        `${BASE_URL}/orders`,
+        BODY,
+      );
+      setClientName('');
+      setDeliveryDate('');
+      setProductId(' ');
+      setQuantity(0);
+      setListOfOrdersProducts([]);
+      alert("Pedido cadastrado com sucesso!"); 
+      return newOrder;
+      } catch (error) {
+        alert("Houve um erro e o pedido não pôde ser cadastrado com sucesso!"); 
+      }
+
+  }
 
   return (
     <ContainerPage>
@@ -108,9 +169,9 @@ const CreateOrderPage = (props) => {
           <CardForm>
             <CustomForm>
               <label>Cliente: </label>
-              <Input name="client_name" type="text" />
+              <Input name="client_name" type="text" value={clientName} onChange={onChangeClientName} />
               <label>Data de Entrega: </label>
-              <Input name="delivery_date" type="date" />
+              <Input name="delivery_date" type="date" value={deliveryDate} onChange={onChangeDeliveryDate} />
               <label>Adicionar Produtos: </label>
               <ContainerFormProducts onSubmit={onSubmitAddProductToList}>
                 <SelectFormProducts name="product_id"  value={productId} onChange={onChangeProductId}>
@@ -130,8 +191,14 @@ const CreateOrderPage = (props) => {
               <ContainerAddedProducts>
                 {listOfProductsAddedToOrder}
               </ContainerAddedProducts>
+              <br/>
+              <label>ValorTotal: </label>
+              <b>{new Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                }).format(totalOrderAmount)}</b>
               <ContainerSendButton>
-                <SendButton>Enviar</SendButton>
+                <SendButton onClick={onClickAddNewOrder}>Enviar</SendButton>
               </ContainerSendButton>
             </CustomForm>
           </CardForm>
