@@ -190,6 +190,7 @@ export const CardTotal = styled.p`
   font-weight: bold;
 `;
 
+
 /* Erro */
 
 export const ContainerEmptyMessage = styled.div`
