@@ -86,8 +86,16 @@ const CreateOrderPage = (props) => {
         quantity: +quantity
       }
 
+      const productDetail = await axios
+      .get(`${BASE_URL}/products/${productId}`);
+
+      if(BODY.quantity > productDetail.data.qty_stock){
+        alert(`A quantidade informada não está disponível em estoque. Escolha um valor menor ou igual a ${productDetail.data.qty_stock}`);
+        validate = true;
+      }
 
       listOfOrdersProducts && listOfOrdersProducts.forEach((product) => {
+
         if (product.product_id === productId) {
           setProductId(' ');
           setQuantity(0);
@@ -226,11 +234,44 @@ const CreateOrderPage = (props) => {
       setProductId(' ');
       setQuantity(0);
       setListOfOrdersProducts([]);
+
+      /* for (let i = 0; i < productsListId.length; i++) {
+
+
+      const [data] = useRequestData(`${BASE_URL}/products/${productsListId.product_id}`);
+
+      let newQuantityStock = data.qty_stock - Number(quantity);
+
+        await axios
+      .patch(
+        `${BASE_URL}/products/${productsListId.product_id}`,{
+          qty_stock: newQuantityStock
+        });
+        
+      } */
       alert("Pedido cadastrado com sucesso!"); 
       return newOrder;
       } catch (error) {
         alert("Houve um erro e o pedido não pôde ser cadastrado com sucesso!"); 
       }
+
+
+      /* const BODY = {
+        quantity: +quantity
+      } */
+
+      
+
+      /* try {
+        await axios
+      .patch(
+        `${BASE_URL}/products/${product.item_list_id}`,BODY);
+
+        alert("Produto editado com sucessso! #sqn");
+
+      }catch(err){
+      alert("Houve um erro e o produto não pôde ser deletado.");
+    } */
 
   }
 
