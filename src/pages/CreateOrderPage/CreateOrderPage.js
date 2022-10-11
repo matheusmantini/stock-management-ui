@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import CardTitle from "../../components/CardTitle/CardTitle";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
@@ -21,7 +20,6 @@ import {
   Icon,
   ContainerSendButton,
   SendButton,
-  ProductAdded,
   ContainerAddedProducts,
   CardInputs,
   ItemInput,
@@ -34,11 +32,10 @@ import {
 } from "./styled";
 
 const CreateOrderPage = (props) => {
-  const navigate = useNavigate();
   const [data] = useRequestData(`${BASE_URL}/products`);
 
   const listaProdutos = data && data.map((produto) => {
-    return <option key={produto.id} value={produto.id}>{produto.name}</option>
+    return <option key={Math.random()} value={produto.id}>{produto.name}</option>
   })
 
   const [clientName, setClientName] = useState('');
@@ -69,6 +66,7 @@ const CreateOrderPage = (props) => {
   const onSubmitAddProductToList = (e) => {
     e.preventDefault();    
     productItem.product_id = productId;
+    //setProductItem({...productItem, product_id: productId})
     productItem.quantity = +quantity;
     if(productId === undefined || quantity < 1){
       alert('Por favor, escolha um produto e quantidade mairo que 0.');
@@ -136,8 +134,9 @@ const CreateOrderPage = (props) => {
   },[productsListId])
   
   const listOfProductsAddedToOrder = listOfOrdersProducts && listOfOrdersProducts.map((product) => {
-    totalOrderAmount += product.total;
-    return (<CardInputs key={Math.floor(Math.random() * Math.random())}>
+    totalOrderAmount+=product.total;
+    
+    return (<CardInputs key={Math.random()}>
       <ItemInput>
         <b>Produto:</b> {product.product_name}
       </ItemInput>

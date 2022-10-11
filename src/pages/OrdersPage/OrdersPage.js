@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import CardTitle from "../../components/CardTitle/CardTitle";
 import Footer from "../../components/Footer/Footer";
@@ -12,10 +11,6 @@ import {
   CardOrder,
   IdPedido,
   CardOrderContent,
-  Icon,
-  ButtonsContainer,
-  EditButton,
-  DeleteButton,
   ContainerEmptyMessage,
   ContainerPage,
   ContainerContent,
@@ -39,7 +34,6 @@ const OrdersPage = () => {
         const deliveryDate = new Date(
           pedido.delivery_date
         ).toLocaleDateString('pt-BR');
-
         const shoppingList = pedido.shopping_list;
 
         const shoppingItems = shoppingList.map(
@@ -65,7 +59,7 @@ const OrdersPage = () => {
         );
 
         return (
-          <CardOrder key={pedido.id}>
+          <CardOrder key={Math.random()}>
             <CardOrderTitle>
               <IdPedido>#{pedido.id}</IdPedido>
             </CardOrderTitle>

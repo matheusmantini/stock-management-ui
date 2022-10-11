@@ -94,7 +94,7 @@ export const Icon = styled.div`
   font-size: 18px;
 `;
 
-export const IdPedido = styled.p`
+export const IdPedido = styled.div`
   font-weight: bold;
 `;
 
@@ -111,7 +111,7 @@ export const ContainerInput = styled.ul`
   width: 100%;
 `;
 
-export const CardInputs = styled.p`
+export const CardInputs = styled.div`
   border: 1px solid var(--color-dark-green);
   border-radius: 10px;
   padding: 10px;
@@ -119,7 +119,7 @@ export const CardInputs = styled.p`
   width: 100%;
 `;
 
-export const ItemInput = styled.p`
+export const ItemInput = styled.div`
   margin: 10px 0;
 `;
 
@@ -132,7 +132,7 @@ export const CardItens = styled.li`
   width: 100%;
 `;
 
-export const CardTotal = styled.p`
+export const CardTotal = styled.div`
   border: 1px solid var(--color-dark-green);
   border-radius: 10px;
   padding: 10px;
