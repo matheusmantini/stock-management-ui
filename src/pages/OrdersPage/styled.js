@@ -62,7 +62,7 @@ export const CardOrderTitle = styled.div`
   align-items: center;
   text-align: center;
   font-size: 26px;
-  padding-top: 10px;
+  padding: 10px 0;
   color: var(--color-white);
   background-color: var(--color-dark-green);
   border-radius: 10px 10px 0 0;
@@ -96,53 +96,6 @@ export const Icon = styled.div`
 
 export const IdPedido = styled.p`
   font-weight: bold;
-`;
-
-export const ButtonsContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-  width: 100px;
-  border-radius: 10px;
-  margin: 8px 0;
-`;
-
-export const EditButton = styled.button`
-  color: var(--color-white);
-  background-color: var(--color-yellow);
-  height: 32px;
-  width: 48px;
-  border: 0;
-  cursor: pointer;
-  opacity: 1;
-  border-radius: 10px;
-  :hover {
-    opacity: 0.5;
-    background-color: var(--color-yellow);
-    color: var(--color-white);
-  }
-  :active {
-    opacity: 0.8;
-  }
-`;
-
-export const DeleteButton = styled.button`
-  color: var(--color-white);
-  background-color: var(--color-red);
-  height: 32px;
-  width: 42px;
-  border: 0;
-  cursor: pointer;
-  opacity: 1;
-  border-radius: 10px;
-  :hover {
-    opacity: 0.5;
-    background-color: var(--color-red);
-    color: var(--color-white);
-  }
-  :active {
-    opacity: 0.8;
-  }
 `;
 
 /* Itens Pedido */

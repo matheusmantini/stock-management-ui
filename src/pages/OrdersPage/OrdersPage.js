@@ -68,28 +68,6 @@ const OrdersPage = () => {
           <CardOrder key={pedido.id}>
             <CardOrderTitle>
               <IdPedido>#{pedido.id}</IdPedido>
-              <ButtonsContainer>
-                <EditButton
-                  title="Editar pedido"
-                  onClick={() => {
-                    alert("Página de Edição do pedido! #sqn");
-                  }}
-                >
-                  <Icon>
-                    <FontAwesomeIcon icon="fa-regular fa-pen-to-square" />
-                  </Icon>
-                </EditButton>
-                <DeleteButton
-                  title="Deletar pedido"
-                  onClick={() => {
-                    alert("Pedido deletado com sucessso! #sqn");
-                  }}
-                >
-                  <Icon>
-                    <FontAwesomeIcon icon="fa-solid fa-x" />
-                  </Icon>
-                </DeleteButton>
-              </ButtonsContainer>
             </CardOrderTitle>
             <CardOrderContent>
               <p>Cliente: </p>
