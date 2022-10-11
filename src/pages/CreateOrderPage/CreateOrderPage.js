@@ -146,10 +146,23 @@ const CreateOrderPage = (props) => {
       <ButtonsContainer>
         <EditButton
           title="Editar quantidade"
-          onClick={() => {
-            const newQuantity = prompt('Digite a nova quantidade: ');
+          onClick={async () => {
+            const newQuantity = +prompt('Digite a nova quantidade: ');
             product.quantity = newQuantity;
-            alert("Página de Edição da quantidade! #sqn");
+
+            const BODY = {
+              quantity: newQuantity
+            }
+            try {
+              await axios
+            .patch(
+              `${BASE_URL}/items-list/${product.item_list_id}`,BODY);
+
+              alert("Produto editado com sucessso! #sqn");
+
+            }catch(err){
+            alert("Houve um erro e o produto não pôde ser deletado.");
+          }
           }}
         >
           <Icon>
