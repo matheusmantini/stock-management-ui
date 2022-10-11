@@ -229,49 +229,22 @@ const CreateOrderPage = (props) => {
         `${BASE_URL}/orders`,
         BODY,
       );
+
+      for (let i = 0; i < productsListId.length; i++) {
+        const item = await axios.get(`${BASE_URL}/items-list/${productsListId[i]}`); 
+        await axios.patch(`${BASE_URL}/products/${item.data.product_id}`,{quantity: item.data.quantity});
+      }
+
       setClientName('');
       setDeliveryDate('');
       setProductId(' ');
       setQuantity(0);
       setListOfOrdersProducts([]);
-
-      /* for (let i = 0; i < productsListId.length; i++) {
-
-
-      const [data] = useRequestData(`${BASE_URL}/products/${productsListId.product_id}`);
-
-      let newQuantityStock = data.qty_stock - Number(quantity);
-
-        await axios
-      .patch(
-        `${BASE_URL}/products/${productsListId.product_id}`,{
-          qty_stock: newQuantityStock
-        });
-        
-      } */
       alert("Pedido cadastrado com sucesso!"); 
       return newOrder;
       } catch (error) {
-        alert("Houve um erro e o pedido não pôde ser cadastrado com sucesso!"); 
+        alert("Houve um erro e o pedido não pôde ser cadastrado com sucesso! ",error); 
       }
-
-
-      /* const BODY = {
-        quantity: +quantity
-      } */
-
-      
-
-      /* try {
-        await axios
-      .patch(
-        `${BASE_URL}/products/${product.item_list_id}`,BODY);
-
-        alert("Produto editado com sucessso! #sqn");
-
-      }catch(err){
-      alert("Houve um erro e o produto não pôde ser deletado.");
-    } */
 
   }
 
