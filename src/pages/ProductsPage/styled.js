@@ -1,5 +1,13 @@
 import styled from "styled-components";
 
+
+export const ContainerPage = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  height: 100vh;
+`;
+
 /* Filter */
 
 export const ContainerFilterSort = styled.div`
@@ -15,10 +23,15 @@ export const ContainerFilterSort = styled.div`
 
 export const ContainerContent = styled.div`
   display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  margin-bottom: 50px;
+`;
+
+export const Container = styled.div`
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 40px;
-  z-index: 1;
 `;
 
 export const ContainerCards = styled.div`
@@ -33,7 +46,7 @@ export const ContainerCards = styled.div`
 /* CARD PRODUTO */
 
 export const CardProduct = styled.li`
-  background-color: white;
+  background-color: var(--color-white);
   width: 60%;
   min-height: 250px;
   box-shadow: 2px 2px 1px 0px var(--color-dark-green);
@@ -67,6 +80,7 @@ export const CardProductTitle = styled.div`
   color: var(--color-white);
   background-color: var(--color-dark-green);
   border-radius: 10px 10px 0 0;
+
   @media screen and (max-width: 1024px) {
     font-size: 22px;
   }
@@ -113,15 +127,6 @@ export const CardInputs = styled.div`
   color: ${(props) => (props.estoque === "zero" ? "var(--color-red)" : "var(--color-black)")};
 `;
 
-
-
-
-
-
-
-
-
-
 /* Erro */
 
 export const ContainerEmptyMessage = styled.div`
@@ -131,7 +136,7 @@ export const ContainerEmptyMessage = styled.div`
   grid-column: 1/-1;
   padding: 0;
   h3 {
-    color: rgb(1, 73, 99);
+    color: var(--color-dark-green);
     padding: 10px 20px;
     border-radius: 15px;
     background-color: var(--color-white);

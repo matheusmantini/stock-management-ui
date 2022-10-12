@@ -32,7 +32,7 @@ export const ContainerCards = styled.div`
 /* CARD PEDIDO */
 
 export const CardOrder = styled.li`
-  background-color: white;
+  background-color: var(--color-white);
   width: 60%;
   min-height: 250px;
   box-shadow: 2px 2px 1px 0px var(--color-dark-green);
@@ -43,6 +43,7 @@ export const CardOrder = styled.li`
   font-size: 18px;
   border: 1px outset var(--color-light-green);
   border-radius: 10px;
+
   @media screen and (max-width: 1024px) {
     width: 80%;
   }
@@ -66,6 +67,7 @@ export const CardOrderTitle = styled.div`
   color: var(--color-white);
   background-color: var(--color-dark-green);
   border-radius: 10px 10px 0 0;
+
   @media screen and (max-width: 1024px) {
     font-size: 22px;
   }
@@ -78,7 +80,7 @@ export const CardOrderTitle = styled.div`
 `;
 
 export const CardOrderContent = styled.div`
-  background-color: white;
+  background-color: var(--color-white);
   height: 100%;
   width: 100%;
   padding: 20px;

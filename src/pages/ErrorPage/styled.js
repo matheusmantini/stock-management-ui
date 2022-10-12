@@ -15,7 +15,7 @@ export const Card = styled.div`
   align-items: center;
   height: 250px;
   width: 350px;
-  background-color: white;
+  background-color: var(--color-white);
   border: 1px solid var(--color-light-green);
   border-radius: 15px;
   color: var(--color-dark-green);
@@ -25,6 +25,7 @@ export const Card = styled.div`
   i {
     font-size: 150px;
   }
+  
   @media screen and (max-width: 767px) {
     height: 30%;
     width: 90%;

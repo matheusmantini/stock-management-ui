@@ -36,6 +36,7 @@ export const CardForm = styled.div`
   border: 1px outset var(--color-light-green);
   border-radius: 10px;
   padding: 20px;
+
   @media screen and (max-width: 1024px) {
     width: 80%;
   }
@@ -81,6 +82,7 @@ export const TotalTag = styled.div`
   padding: 10px;
   margin: 10px 0;
   width: 20%;
+  
   @media screen and (max-width: 1024px) {
     width: 30%;
   }

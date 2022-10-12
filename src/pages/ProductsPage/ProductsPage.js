@@ -15,11 +15,12 @@ import {
   ContainerEmptyMessage,
   Id,
   ContainerFilterSort,
+  ContainerPage,
 } from "./styled";
 
 const ProductsPage = () => {
   const [data, isLoading] = useRequestData(`${BASE_URL}/products`);
-  
+
   /* filter */
 
   const [query, setQuery] = useState("");
@@ -43,71 +44,80 @@ const ProductsPage = () => {
   const listaProdutos =
     data &&
     data
-    .filter(product => {
-      return product.name.toLowerCase().includes(query.toLowerCase());
-    })
-    .sort((currentProduct, nextProduct) => {
-      switch (sortingParameter) {
-        case "price": 
-        return order * (currentProduct.price - nextProduct.price)
-        case "stock":   
-        return order * (currentProduct.qty_stock - nextProduct.qty_stock)
-        default:                
-          return order * ('' + currentProduct.name.toLowerCase()).localeCompare(nextProduct.name.toLowerCase());
-      }
-    })
-    .map((produto) => {
-      return (
-        <CardProduct key={Math.random()}>
-          <CardProductTitle>
-            <Id># {produto.id}</Id>
-          </CardProductTitle>
-          <CardProductContent>
-            <p>Nome: </p>
-            <CardInputs>{produto.name}</CardInputs>
-            <p>Preço: </p>
-            <CardInputs>{new Intl.NumberFormat("pt-BR", {
+      .filter((product) => {
+        return product.name.toLowerCase().includes(query.toLowerCase());
+      })
+      .sort((currentProduct, nextProduct) => {
+        switch (sortingParameter) {
+          case "price":
+            return order * (currentProduct.price - nextProduct.price);
+          case "stock":
+            return order * (currentProduct.qty_stock - nextProduct.qty_stock);
+          default:
+            return (
+              order *
+              ("" + currentProduct.name.toLowerCase()).localeCompare(
+                nextProduct.name.toLowerCase()
+              )
+            );
+        }
+      })
+      .map((produto) => {
+        return (
+          <CardProduct key={Math.random()}>
+            <CardProductTitle>
+              <Id># {produto.id}</Id>
+            </CardProductTitle>
+            <CardProductContent>
+              <p>Nome: </p>
+              <CardInputs>{produto.name}</CardInputs>
+              <p>Preço: </p>
+              <CardInputs>
+                {new Intl.NumberFormat("pt-BR", {
                   style: "currency",
                   currency: "BRL",
-                }).format(produto.price)}</CardInputs>
-            <p>Quantidade em Estoque: </p>
-            {produto.qty_stock < 1 ? (
-              <CardInputs estoque="zero">{produto.qty_stock}</CardInputs>
-            ) : (
-              <CardInputs>{produto.qty_stock}</CardInputs>
-            )}
-          </CardProductContent>
-        </CardProduct>
-      );
-    });
+                }).format(produto.price)}
+              </CardInputs>
+              <p>Quantidade em Estoque: </p>
+              {produto.qty_stock < 1 ? (
+                <CardInputs estoque="zero">{produto.qty_stock}</CardInputs>
+              ) : (
+                <CardInputs>{produto.qty_stock}</CardInputs>
+              )}
+            </CardProductContent>
+          </CardProduct>
+        );
+      });
 
   return (
     <>
-      <Header />
-      <CardTitle title="Produtos" />
-      <ContainerFilterSort>
-        <Filters
-          query={query}
-          updateQuery={updateQuery}
-          updateSortingParameter={updateSortingParameter}
-          updateOrder={updateOrder}
-          sortingParameter={sortingParameter}
-          order={order}
-        />
-      </ContainerFilterSort>
+      <ContainerPage>
+        <Header />
+        <CardTitle title="Produtos" />
+        <ContainerFilterSort>
+          <Filters
+            query={query}
+            updateQuery={updateQuery}
+            updateSortingParameter={updateSortingParameter}
+            updateOrder={updateOrder}
+            sortingParameter={sortingParameter}
+            order={order}
+          />
+        </ContainerFilterSort>
 
-      <ContainerContent>
-        {!isLoading &&
-          listaProdutos &&
-          (listaProdutos.length > 0 ? (
-            <ContainerCards>{listaProdutos}</ContainerCards>
-          ) : (
-            <ContainerEmptyMessage>
-              <h3>Não há produtos disponíveis no momento.</h3>
-            </ContainerEmptyMessage>
-          ))}
-      </ContainerContent>
-      <Footer />
+        <ContainerContent>
+          {!isLoading &&
+            listaProdutos &&
+            (listaProdutos.length > 0 ? (
+              <ContainerCards>{listaProdutos}</ContainerCards>
+            ) : (
+              <ContainerEmptyMessage>
+                <h3>Não há produtos disponíveis no momento.</h3>
+              </ContainerEmptyMessage>
+            ))}
+        </ContainerContent>
+        <Footer />
+      </ContainerPage>
     </>
   );
 };
