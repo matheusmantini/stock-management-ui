@@ -61,7 +61,7 @@ const OrdersPage = () => {
         return (
           <CardOrder key={Math.random()}>
             <CardOrderTitle>
-              <IdPedido>#{pedido.id}</IdPedido>
+              <IdPedido># {pedido.id}</IdPedido>
             </CardOrderTitle>
             <CardOrderContent>
               <p>Cliente: </p>

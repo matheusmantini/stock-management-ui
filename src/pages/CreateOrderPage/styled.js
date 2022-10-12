@@ -81,6 +81,16 @@ export const TotalTag = styled.div`
   padding: 10px;
   margin: 10px 0;
   width: 20%;
+  @media screen and (max-width: 1024px) {
+    width: 30%;
+  }
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
+  @media screen and (max-width: 365px) {
+    width: 100%;
+    font-size: 14px;
+  }
 `;
 
 export const ProductAdded = styled.p`

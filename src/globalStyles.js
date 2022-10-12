@@ -14,6 +14,7 @@ const GlobalStyle = createGlobalStyle`
     --color-black: rgb(25, 25, 25);
     --color-white: rgb(255, 255, 255);
     --color-grey: rgb(120, 120, 120);
+    --color-light-grey: rgb(240, 240, 240);
     --color-yellow: rgb(164, 168, 50);
     --color-red: rgb(220, 20, 60);
   }
