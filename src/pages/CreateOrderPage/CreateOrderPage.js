@@ -218,6 +218,7 @@ const CreateOrderPage = (props) => {
   const listOfProductsAddedToOrder =
     listOfOrdersProducts &&
     listOfOrdersProducts.map((product) => {
+      
       totalOrderAmount += product.total;
 
       return (
@@ -261,6 +262,12 @@ const CreateOrderPage = (props) => {
                     theme: "colored",
                   });
                   setQuantityUpdated(!quantityUpdated);
+
+                  const newProductAdded = await axios.get(
+                    `${BASE_URL}/items-list/${product.item_list_id}`
+                  );
+                  setTotalOrderAmount(newProductAdded.data.total);
+                  console.log("newProductAdded",newProductAdded);
                 } catch (err) {
                   toast.error(
                     "Houve um erro e o produto não pôde ser editado.",
