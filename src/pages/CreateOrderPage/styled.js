@@ -81,10 +81,10 @@ export const TotalTag = styled.div`
   font-weight: bold;
   padding: 10px;
   margin: 10px 0;
-  width: 20%;
+  width: 30%;
   
   @media screen and (max-width: 1024px) {
-    width: 30%;
+    width: 40%;
   }
   @media screen and (max-width: 767px) {
     width: 100%;
