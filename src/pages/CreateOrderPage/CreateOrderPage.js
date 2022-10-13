@@ -58,6 +58,8 @@ const CreateOrderPage = (props) => {
   const [quantity, setQuantity] = useState(0);
   const [quantityUpdated, setQuantityUpdated] = useState(false);
 
+  let [totalOrderAmountArrayTest, setTotalOrderAmountArrayTest] = useState([]);
+
   const onChangeClientName = (event) => {
     setClientName(event.target.value);
   };
@@ -174,6 +176,14 @@ const CreateOrderPage = (props) => {
             progress: undefined,
             theme: "colored",
           });
+          console.log("itemList.data.id", itemList.data);
+          const itemListDetails = await axios.get(
+            `${BASE_URL}/items-list/${itemList.data.id}`
+          );
+          setTotalOrderAmountArrayTest([
+            ...totalOrderAmountArrayTest,
+            { itemId: itemList.data.id, total: itemListDetails.data.total },
+          ]);
           return itemList;
         } catch (error) {
           toast.error(
@@ -195,6 +205,8 @@ const CreateOrderPage = (props) => {
     };
     addProductToList();
   };
+
+  console.log("totalOrderAmountArrayTest", totalOrderAmountArrayTest);
 
   /* Request to get all items list */
 
@@ -266,6 +278,32 @@ const CreateOrderPage = (props) => {
                     `${BASE_URL}/items-list/${product.item_list_id}`
                   );
                   setTotalOrderAmount(newProductAdded.data.total);
+
+                  if (
+                    !totalOrderAmountArrayTest.some(
+                      (productItem) =>
+                        productItem.itemId === product.item_list_id
+                    )
+                  ) {
+                    setTotalOrderAmountArrayTest([
+                      ...totalOrderAmountArrayTest,
+                      {
+                        itemId: product.item_list_id,
+                        total: newProductAdded.data.total,
+                      },
+                    ]);
+                  } else {
+                    const item = totalOrderAmountArrayTest.find(
+                      (item) => item.itemId === product.item_list_id
+                    );
+                    totalOrderAmountArrayTest[
+                      totalOrderAmountArrayTest.indexOf(item)
+                    ] = {
+                      itemId: item.itemId,
+                      total: newProductAdded.data.total,
+                    };
+                  }
+
                   console.log("newProductAdded", newProductAdded);
                 } catch (err) {
                   toast.error(
@@ -513,7 +551,12 @@ const CreateOrderPage = (props) => {
                 {new Intl.NumberFormat("pt-BR", {
                   style: "currency",
                   currency: "BRL",
-                }).format(totalOrderAmount)}
+                }).format(
+                  totalOrderAmountArrayTest.reduce(
+                    (acc, item) => acc + item.total,
+                    0
+                  )
+                )}
               </TotalTag>
               <ContainerSendButton>
                 <SendButton onClick={onClickAddNewOrder}>Enviar</SendButton>
