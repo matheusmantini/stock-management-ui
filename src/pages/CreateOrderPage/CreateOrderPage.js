@@ -191,12 +191,22 @@ const CreateOrderPage = (props) => {
 
   /* Request to get all items list */
 
+  useEffect(()=>{
+    console.log("listOfOrdersProducts",listOfOrdersProducts);
+  },[listOfOrdersProducts])
+
+
   useEffect(() => {
     productsListId && productsListId.map(async(productId) => {
       const product = await axios.get(`${BASE_URL}/items-list/${productId}`);
-      setListOfOrdersProducts([...listOfOrdersProducts,product.data])
+      for (let i = 0; i < listOfOrdersProducts.length; i++) {
+        if(listOfOrdersProducts[i].product_id === product.data.product_id){
+          return;
+        }     
+      }
+      setListOfOrdersProducts([...listOfOrdersProducts,product.data]);
     })
-  },[productsListId])
+  },[productsListId]);
   
   const listOfProductsAddedToOrder = listOfOrdersProducts && listOfOrdersProducts.map((product) => {
     totalOrderAmount+=product.total;
