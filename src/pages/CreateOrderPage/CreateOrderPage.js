@@ -218,7 +218,6 @@ const CreateOrderPage = (props) => {
   const listOfProductsAddedToOrder =
     listOfOrdersProducts &&
     listOfOrdersProducts.map((product) => {
-      
       totalOrderAmount += product.total;
 
       return (
@@ -267,7 +266,7 @@ const CreateOrderPage = (props) => {
                     `${BASE_URL}/items-list/${product.item_list_id}`
                   );
                   setTotalOrderAmount(newProductAdded.data.total);
-                  console.log("newProductAdded",newProductAdded);
+                  console.log("newProductAdded", newProductAdded);
                 } catch (err) {
                   toast.error(
                     "Houve um erro e o produto não pôde ser editado.",
@@ -306,6 +305,7 @@ const CreateOrderPage = (props) => {
                       }
                     );
                     setListOfOrdersProducts(newListOrderProducts);
+                    setTotalOrderAmount(0);
                   }
                   toast.success("Produto deletado com sucesso!", {
                     position: "top-right",
@@ -410,7 +410,8 @@ const CreateOrderPage = (props) => {
       setDeliveryDate("");
       setProductId(" ");
       setQuantity(0);
-      setListOfOrdersProducts([]);
+      setListOfOrdersProducts(null);
+      setTotalOrderAmount(0);
       toast.success("Pedido cadastrado com sucesso!", {
         position: "top-right",
         autoClose: 2000,
