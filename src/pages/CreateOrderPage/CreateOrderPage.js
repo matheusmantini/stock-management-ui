@@ -209,7 +209,7 @@ const CreateOrderPage = (props) => {
   useEffect(() => {
     productsListId &&
       productsListId.map(async (productId) => {
-        const product = await axios.get(`${BASE_URL}/items-list/${productId}`);
+        const product = await axios.get(`${BASE_URL}/items-list/${productId}`);        
         for (let i = 0; i < listOfOrdersProducts.length; i++) {
           if (listOfOrdersProducts[i].product_id === product.data.product_id) {
             return;
@@ -217,7 +217,7 @@ const CreateOrderPage = (props) => {
         }
         setListOfOrdersProducts([...listOfOrdersProducts, product.data]);
       });
-  });
+  },[productsListId]);
 
   const listOfProductsAddedToOrder =
     listOfOrdersProducts &&
@@ -324,7 +324,7 @@ const CreateOrderPage = (props) => {
                   await axios.delete(
                     `${BASE_URL}/items-list/${product.item_list_id}`
                   );
-
+                  
                   if (productsListId.includes(product.item_list_id)) {
                     const newListOrderProducts = listOfOrdersProducts.filter(
                       (productOrder) => {
@@ -334,6 +334,20 @@ const CreateOrderPage = (props) => {
                       }
                     );
                     setListOfOrdersProducts(newListOrderProducts);
+                    
+                    const newProductsListId = productsListId.filter((id) => {
+                      return (
+                        id !== product.item_list_id
+                      );
+                    });
+                    setProductsListId(newProductsListId);
+                    
+                    const newTotalOrderAmount = totalOrderAmount.filter((item) => {
+                      return (
+                        item.itemId !== product.item_list_id
+                      );
+                    });
+                    setTotalOrderAmount(newTotalOrderAmount);
                   }
                   toast.success("Produto deletado com sucesso!", {
                     position: "top-right",
