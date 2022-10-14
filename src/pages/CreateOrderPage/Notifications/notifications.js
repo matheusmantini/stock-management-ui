@@ -81,7 +81,7 @@ export const warnClientIsRequired = () => {
     progress: undefined,
     theme: "colored",
   });
-}
+};
 
 export const warnDeliveryDateIsRequired = () => {
   toast.warn("Informe a data de entrega", {
@@ -94,7 +94,7 @@ export const warnDeliveryDateIsRequired = () => {
     progress: undefined,
     theme: "colored",
   });
-}
+};
 
 export const warnProductIsRequired = () => {
   toast.warn("Selecione ao menos um produto.", {
@@ -107,7 +107,7 @@ export const warnProductIsRequired = () => {
     progress: undefined,
     theme: "colored",
   });
-}
+};
 
 /* SUCCESS */
 
@@ -161,7 +161,7 @@ export const successOrderAdded = () => {
     progress: undefined,
     theme: "colored",
   });
-}
+};
 
 /* ERROR */
 
@@ -205,17 +205,14 @@ export const errorProductCouldNotBeDeleted = () => {
 };
 
 export const errorOrderCouldNotBeAdded = () => {
-  toast.error(
-    "Houve um erro e o pedido não pôde ser cadastrado com sucesso!",
-    {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    }
-  );
-}
+  toast.error("Houve um erro e o pedido não pôde ser cadastrado com sucesso!", {
+    position: "top-right",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+  });
+};

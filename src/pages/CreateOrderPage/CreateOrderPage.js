@@ -10,7 +10,7 @@ import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import { BASE_URL } from "../../constants/urls";
 import useRequestData from "../../hooks/useRequestData";
-import * as notification from "./notifications";
+import * as notification from "./Notifications/notifications";
 import {
   CardForm,
   ContainerCardForm,
@@ -38,7 +38,6 @@ import {
 
 const CreateOrderPage = (props) => {
   // Pega todos os produtos disponíveis e seta como opção no select
-
   const [data] = useRequestData(`${BASE_URL}/products`);
 
   const listaProdutos =
@@ -77,7 +76,18 @@ const CreateOrderPage = (props) => {
     setQuantity(event.target.value);
   };
 
-  // Função para adicionar itens ao pedido
+  React.useEffect(() => {
+    productsListId &&
+      productsListId.map(async (productId) => {
+        const product = await axios.get(`${BASE_URL}/items-list/${productId}`);
+        for (let i = 0; i < listOfOrdersProducts.length; i++) {
+          if (listOfOrdersProducts[i].product_id === product.data.product_id) {
+            return;
+          }
+        }
+        setListOfOrdersProducts([...listOfOrdersProducts, product.data]);
+      });
+  }, [productsListId]);
 
   const onSubmitAddProductToList = (e) => {
     e.preventDefault();
@@ -93,8 +103,6 @@ const CreateOrderPage = (props) => {
       notification.warnQuantityMustBeHigherThanZero();
       return;
     }
-
-    /* Request to create a new Item List */
 
     const addProductToList = async () => {
       let validate = false;
@@ -152,21 +160,6 @@ const CreateOrderPage = (props) => {
     addProductToList();
   };
 
-  /* Request to get all items list */
-
-  React.useEffect(() => {
-    productsListId &&
-      productsListId.map(async (productId) => {
-        const product = await axios.get(`${BASE_URL}/items-list/${productId}`);
-        for (let i = 0; i < listOfOrdersProducts.length; i++) {
-          if (listOfOrdersProducts[i].product_id === product.data.product_id) {
-            return;
-          }
-        }
-        setListOfOrdersProducts([...listOfOrdersProducts, product.data]);
-      });
-  }, [productsListId]);
-
   const listOfProductsAddedToOrder =
     listOfOrdersProducts &&
     listOfOrdersProducts.map((product, index) => {
@@ -200,14 +193,10 @@ const CreateOrderPage = (props) => {
                   `${BASE_URL}/products/${product.product_id}`
                 );
 
-                console.log("BODY.quantity", BODY.quantity);
-                console.log(
-                  "productDetail.data.qty_stock",
-                  productDetail.data.qty_stock
-                );
-
                 if (BODY.quantity > productDetail.data.qty_stock) {
-                  notification.warnUnavailableQuantity(productDetail.data.qty_stock);
+                  notification.warnUnavailableQuantity(
+                    productDetail.data.qty_stock
+                  );
                 } else {
                   try {
                     await axios.patch(
@@ -299,8 +288,6 @@ const CreateOrderPage = (props) => {
       );
     });
 
-  /* Request to Add New Order */
-
   const onClickAddNewOrder = async () => {
     if (clientName === "") {
       notification.warnClientIsRequired();
@@ -341,7 +328,7 @@ const CreateOrderPage = (props) => {
       setQuantity(0);
       setListOfOrdersProducts(null);
       setTotalOrderAmount([]);
-      
+
       notification.successOrderAdded();
 
       return newOrder;
