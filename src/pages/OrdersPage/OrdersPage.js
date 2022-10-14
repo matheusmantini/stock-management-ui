@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { BASE_URL } from "../../constants/urls";
+import useRequestData from "../../hooks/useRequestData";
 import CardTitle from "../../components/CardTitle/CardTitle";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
-import { BASE_URL } from "../../constants/urls";
-import useRequestData from "../../hooks/useRequestData";
+import Loading from "../../components/Loading/Loading";
 import {
   Container,
   ContainerCards,
@@ -18,28 +19,25 @@ import {
   CardInputs,
   ContainerInput,
   CardTotal,
-  ItemInput
+  ItemInput,
 } from "./styled";
-import Loading from "../../components/Loading/Loading";
 
 const OrdersPage = () => {
   const [data, isLoading, error] = useRequestData(`${BASE_URL}/orders`);
   const [itensPedido, setItensPedido] = useState();
 
-
   useEffect(() => {
     setItensPedido(
       data &&
-      data.map((pedido) => {        
-        let getDate = pedido.delivery_date.slice(0, 10).split('-');
-        const deliveryDate = getDate[2] +'/'+ getDate[1] +'/'+ getDate[0];
+        data.map((pedido, index) => {
+          let getDate = pedido.delivery_date.slice(0, 10).split("-");
+          const deliveryDate = getDate[2] + "/" + getDate[1] + "/" + getDate[0];
 
-        const shoppingList = pedido.shopping_list;
+          const shoppingList = pedido.shopping_list;
 
-        const shoppingItems = shoppingList.map(
-          ({ product, quantity, price }) => (
-            <>
-              <CardInputs>
+          const shoppingItems = shoppingList.map(
+            ({ product, quantity, price }) => (
+              <CardInputs key={product}>
                 <ItemInput>
                   <b>Produto:</b> {product}
                 </ItemInput>
@@ -54,36 +52,36 @@ const OrdersPage = () => {
                   }).format(price)}
                 </ItemInput>
               </CardInputs>
-            </>
-          )
-        );
+            )
+          );
 
-        return (
-          <CardOrder key={Math.random()}>
-            <CardOrderTitle>
-              <IdPedido># {pedido.id}</IdPedido>
-            </CardOrderTitle>
-            <CardOrderContent>
-              <p>Cliente: </p>
-              <CardInputs>{pedido.client_name}</CardInputs>
-              <p>Data de Entrega: </p>
-              <CardInputs>{deliveryDate}</CardInputs>
-              <ItensPedido>
-                Itens do Pedido:{" "}
-                <ContainerInput>{shoppingItems}</ContainerInput>
-              </ItensPedido>
-              <CardTotal>
-                Total:{" "}
-                {new Intl.NumberFormat("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                }).format(pedido.total_amount)}
-              </CardTotal>
-            </CardOrderContent>
-          </CardOrder>
-        );
-      }));
-  },[data]);
+          return (
+            <CardOrder key={index}>
+              <CardOrderTitle>
+                <IdPedido># {pedido.id}</IdPedido>
+              </CardOrderTitle>
+              <CardOrderContent>
+                <p>Cliente: </p>
+                <CardInputs>{pedido.client_name}</CardInputs>
+                <p>Data de Entrega: </p>
+                <CardInputs>{deliveryDate}</CardInputs>
+                <ItensPedido>
+                  Itens do Pedido:{" "}
+                  <ContainerInput>{shoppingItems}</ContainerInput>
+                </ItensPedido>
+                <CardTotal>
+                  Total:{" "}
+                  {new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(pedido.total_amount)}
+                </CardTotal>
+              </CardOrderContent>
+            </CardOrder>
+          );
+        })
+    );
+  }, [data]);
 
   return (
     <ContainerPage>

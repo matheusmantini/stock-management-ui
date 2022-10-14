@@ -40,9 +40,9 @@ const CreateOrderPage = (props) => {
 
   const listaProdutos =
     data &&
-    data.map((produto) => {
+    data.map((produto, index) => {
       return (
-        <option key={Math.random()} value={produto.id}>
+        <option key={index} value={produto.id}>
           {produto.name}
         </option>
       );
@@ -221,10 +221,10 @@ const CreateOrderPage = (props) => {
 
   const listOfProductsAddedToOrder =
     listOfOrdersProducts &&
-    listOfOrdersProducts.map((product) => {
+    listOfOrdersProducts.map((product, index) => {
 
       return (
-        <CardInputs key={Math.random()}>
+        <CardInputs key={index}>
           <ItemInput>
             <b>Produto:</b> {product.product_name}
           </ItemInput>
