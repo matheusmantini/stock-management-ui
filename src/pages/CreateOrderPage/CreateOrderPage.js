@@ -77,7 +77,7 @@ const CreateOrderPage = (props) => {
 
   const onSubmitAddProductToList = (e) => {
     e.preventDefault();
-    setProductItem({...productItem, product_id: productId})
+    setProductItem({ ...productItem, product_id: productId });
     productItem.quantity = +quantity;
 
     if (productId === " ") {
@@ -115,12 +115,29 @@ const CreateOrderPage = (props) => {
 
       const BODY = {
         product_id: productId,
-        quantity: +quantity,
+        quantity: Number(quantity),
       };
 
       const productDetail = await axios.get(
         `${BASE_URL}/products/${productId}`
       );
+
+      if(productDetail.data.qty_stock === 0){
+        toast.warn(
+          `Este produto está com estoque indisponível.`,
+          {
+            position: "top-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          }
+        );
+        return;
+      }
 
       if (BODY.quantity > productDetail.data.qty_stock) {
         toast.warn(
@@ -208,7 +225,7 @@ const CreateOrderPage = (props) => {
   useEffect(() => {
     productsListId &&
       productsListId.map(async (productId) => {
-        const product = await axios.get(`${BASE_URL}/items-list/${productId}`);        
+        const product = await axios.get(`${BASE_URL}/items-list/${productId}`);
         for (let i = 0; i < listOfOrdersProducts.length; i++) {
           if (listOfOrdersProducts[i].product_id === product.data.product_id) {
             return;
@@ -216,12 +233,11 @@ const CreateOrderPage = (props) => {
         }
         setListOfOrdersProducts([...listOfOrdersProducts, product.data]);
       });
-  },[productsListId]);
+  }, [productsListId]);
 
   const listOfProductsAddedToOrder =
     listOfOrdersProducts &&
     listOfOrdersProducts.map((product, index) => {
-
       return (
         <CardInputs key={index}>
           <ItemInput>
@@ -247,60 +263,23 @@ const CreateOrderPage = (props) => {
                 const BODY = {
                   quantity: newQuantity,
                 };
-                try {
-                  await axios.patch(
-                    `${BASE_URL}/items-list/${product.item_list_id}`,
-                    BODY
-                  );
-                  toast.success("Produto editado com sucesso!", {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                  });
-                  setQuantityUpdated(!quantityUpdated);
 
-                  const newProductAdded = await axios.get(
-                    `${BASE_URL}/items-list/${product.item_list_id}`
-                  );
+                const productDetail = await axios.get(
+                  `${BASE_URL}/products/${product.product_id}`
+                );
 
-                  if (
-                    !totalOrderAmount.some(
-                      (productItem) =>
-                        productItem.itemId === product.item_list_id
-                    )
-                  ) {
-                    setTotalOrderAmount([
-                      ...totalOrderAmount,
-                      {
-                        itemId: product.item_list_id,
-                        total: newProductAdded.data.total,
-                      },
-                    ]);
-                  } else {
-                    const item = totalOrderAmount.find(
-                      (item) => item.itemId === product.item_list_id
-                    );
-                    totalOrderAmount[
-                      totalOrderAmount.indexOf(item)
-                    ] = {
-                      itemId: item.itemId,
-                      total: newProductAdded.data.total,
-                    };
-                    // Usado para atualizar o componente
-                    setTotalOrderAmount([
-                      ...totalOrderAmount])
-                  }
-                } catch (err) {
-                  toast.error(
-                    "Houve um erro e o produto não pôde ser editado.",
+                console.log("BODY.quantity", BODY.quantity);
+                console.log(
+                  "productDetail.data.qty_stock",
+                  productDetail.data.qty_stock
+                );
+
+                if (BODY.quantity > productDetail.data.qty_stock) {
+                  toast.warn(
+                    `A quantidade informada não está disponível. Escolha um valor menor ou igual a ${productDetail.data.qty_stock}`,
                     {
                       position: "top-right",
-                      autoClose: 2000,
+                      autoClose: 4000,
                       hideProgressBar: false,
                       closeOnClick: true,
                       pauseOnHover: true,
@@ -309,6 +288,67 @@ const CreateOrderPage = (props) => {
                       theme: "colored",
                     }
                   );
+                } else {
+                  try {
+                    await axios.patch(
+                      `${BASE_URL}/items-list/${product.item_list_id}`,
+                      BODY
+                    );
+                    toast.success("Produto editado com sucesso!", {
+                      position: "top-right",
+                      autoClose: 2000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "colored",
+                    });
+                    setQuantityUpdated(!quantityUpdated);
+
+                    const newProductAdded = await axios.get(
+                      `${BASE_URL}/items-list/${product.item_list_id}`
+                    );
+
+                    if (
+                      !totalOrderAmount.some(
+                        (productItem) =>
+                          productItem.itemId === product.item_list_id
+                      )
+                    ) {
+                      setTotalOrderAmount([
+                        ...totalOrderAmount,
+                        {
+                          itemId: product.item_list_id,
+                          total: newProductAdded.data.total,
+                        },
+                      ]);
+                    } else {
+                      const item = totalOrderAmount.find(
+                        (item) => item.itemId === product.item_list_id
+                      );
+                      totalOrderAmount[totalOrderAmount.indexOf(item)] = {
+                        itemId: item.itemId,
+                        total: newProductAdded.data.total,
+                      };
+                      // Usado para atualizar o componente
+                      setTotalOrderAmount([...totalOrderAmount]);
+                    }
+                  } catch (err) {
+                    toast.error(
+                      "Houve um erro e o produto não pôde ser editado.",
+                      {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                      }
+                    );
+                  }
                 }
               }}
             >
@@ -323,7 +363,7 @@ const CreateOrderPage = (props) => {
                   await axios.delete(
                     `${BASE_URL}/items-list/${product.item_list_id}`
                   );
-                  
+
                   if (productsListId.includes(product.item_list_id)) {
                     const newListOrderProducts = listOfOrdersProducts.filter(
                       (productOrder) => {
@@ -333,19 +373,17 @@ const CreateOrderPage = (props) => {
                       }
                     );
                     setListOfOrdersProducts(newListOrderProducts);
-                    
+
                     const newProductsListId = productsListId.filter((id) => {
-                      return (
-                        id !== product.item_list_id
-                      );
+                      return id !== product.item_list_id;
                     });
                     setProductsListId(newProductsListId);
-                    
-                    const newTotalOrderAmount = totalOrderAmount.filter((item) => {
-                      return (
-                        item.itemId !== product.item_list_id
-                      );
-                    });
+
+                    const newTotalOrderAmount = totalOrderAmount.filter(
+                      (item) => {
+                        return item.itemId !== product.item_list_id;
+                      }
+                    );
                     setTotalOrderAmount(newTotalOrderAmount);
                   }
                   toast.success("Produto deletado com sucesso!", {
@@ -555,10 +593,7 @@ const CreateOrderPage = (props) => {
                   style: "currency",
                   currency: "BRL",
                 }).format(
-                  totalOrderAmount.reduce(
-                    (acc, item) => acc + item.total,
-                    0
-                  )
+                  totalOrderAmount.reduce((acc, item) => acc + item.total, 0)
                 )}
               </TotalTag>
               <ContainerSendButton>

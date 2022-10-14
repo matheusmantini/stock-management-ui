@@ -20,9 +20,6 @@ import {
 
 const ProductsPage = () => {
   const [data, isLoading] = useRequestData(`${BASE_URL}/products`);
-
-  /* filter */
-
   const [query, setQuery] = useState("");
   const [sortingParameter, setSortingParameter] = useState("name");
   const [order, setOrder] = useState(1);
@@ -38,8 +35,6 @@ const ProductsPage = () => {
   const updateOrder = (event) => {
     setOrder(event.target.value);
   };
-
-  /* filter */
 
   const listaProdutos =
     data &&
