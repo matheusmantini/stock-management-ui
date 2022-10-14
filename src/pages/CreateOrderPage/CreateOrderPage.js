@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import CardTitle from "../../components/CardTitle/CardTitle";
@@ -10,6 +10,7 @@ import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import { BASE_URL } from "../../constants/urls";
 import useRequestData from "../../hooks/useRequestData";
+import * as notification from "./notifications";
 import {
   CardForm,
   ContainerCardForm,
@@ -36,6 +37,8 @@ import {
 } from "./styled";
 
 const CreateOrderPage = (props) => {
+  // Pega todos os produtos disponíveis e seta como opção no select
+
   const [data] = useRequestData(`${BASE_URL}/products`);
 
   const listaProdutos =
@@ -48,16 +51,15 @@ const CreateOrderPage = (props) => {
       );
     });
 
-  const [clientName, setClientName] = useState("");
-  const [deliveryDate, setDeliveryDate] = useState("");
-  const [listOfOrdersProducts, setListOfOrdersProducts] = useState([]);
-  const [productsListId, setProductsListId] = useState([]);
-  const [productItem, setProductItem] = useState({});
-  const [productId, setProductId] = useState(" ");
-  const [quantity, setQuantity] = useState(0);
-  const [quantityUpdated, setQuantityUpdated] = useState(false);
+  const [productsListId, setProductsListId] = React.useState([]);
+  const [productItem, setProductItem] = React.useState({});
+  const [listOfOrdersProducts, setListOfOrdersProducts] = React.useState([]);
+  const [totalOrderAmount, setTotalOrderAmount] = React.useState([]);
 
-  let [totalOrderAmount, setTotalOrderAmount] = useState([]);
+  const [clientName, setClientName] = React.useState("");
+  const [deliveryDate, setDeliveryDate] = React.useState("");
+  const [productId, setProductId] = React.useState(" ");
+  const [quantity, setQuantity] = React.useState(0);
 
   const onChangeClientName = (event) => {
     setClientName(event.target.value);
@@ -75,36 +77,20 @@ const CreateOrderPage = (props) => {
     setQuantity(event.target.value);
   };
 
+  // Função para adicionar itens ao pedido
+
   const onSubmitAddProductToList = (e) => {
     e.preventDefault();
     setProductItem({ ...productItem, product_id: productId });
     productItem.quantity = +quantity;
 
     if (productId === " ") {
-      toast.warn("Escolha um produto.", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      notification.warnChooseAProduct();
       return;
     }
 
     if (quantity < 1) {
-      toast.warn("A quantidade precisa ser maior que 0.", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      notification.warnQuantityMustBeHigherThanZero();
       return;
     }
 
@@ -122,37 +108,13 @@ const CreateOrderPage = (props) => {
         `${BASE_URL}/products/${productId}`
       );
 
-      if(productDetail.data.qty_stock === 0){
-        toast.warn(
-          `Este produto está com estoque indisponível.`,
-          {
-            position: "top-right",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          }
-        );
+      if (productDetail.data.qty_stock === 0) {
+        notification.warnUnavailableStock();
         return;
       }
 
       if (BODY.quantity > productDetail.data.qty_stock) {
-        toast.warn(
-          `A quantidade informada não está disponível. Escolha um valor menor ou igual a ${productDetail.data.qty_stock}`,
-          {
-            position: "top-right",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          }
-        );
+        notification.warnUnavailableQuantity(productDetail.data.qty_stock);
         validate = true;
       }
 
@@ -161,16 +123,7 @@ const CreateOrderPage = (props) => {
           if (product.product_id === productId) {
             setProductId(" ");
             setQuantity(0);
-            toast.warn("O produto selecionado já foi adicionado ao pedido!", {
-              position: "top-right",
-              autoClose: 4000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-            });
+            notification.warnProductAlreadyAdded();
             validate = true;
           }
         });
@@ -181,16 +134,7 @@ const CreateOrderPage = (props) => {
           setProductsListId([...productsListId, itemList.data.id]);
           setProductId(" ");
           setQuantity(0);
-          toast.success("Produto adicionado com sucesso!", {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
+          notification.successProductAdded();
           const itemListDetails = await axios.get(
             `${BASE_URL}/items-list/${itemList.data.id}`
           );
@@ -200,19 +144,7 @@ const CreateOrderPage = (props) => {
           ]);
           return itemList;
         } catch (error) {
-          toast.error(
-            "Houve um erro e o produto não pôde ser cadastrado com sucesso",
-            {
-              position: "top-right",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-            }
-          );
+          notification.errorProductCouldNotBeAdded();
         }
       }
       return;
@@ -222,7 +154,7 @@ const CreateOrderPage = (props) => {
 
   /* Request to get all items list */
 
-  useEffect(() => {
+  React.useEffect(() => {
     productsListId &&
       productsListId.map(async (productId) => {
         const product = await axios.get(`${BASE_URL}/items-list/${productId}`);
@@ -275,36 +207,14 @@ const CreateOrderPage = (props) => {
                 );
 
                 if (BODY.quantity > productDetail.data.qty_stock) {
-                  toast.warn(
-                    `A quantidade informada não está disponível. Escolha um valor menor ou igual a ${productDetail.data.qty_stock}`,
-                    {
-                      position: "top-right",
-                      autoClose: 4000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: "colored",
-                    }
-                  );
+                  notification.warnUnavailableQuantity(productDetail.data.qty_stock);
                 } else {
                   try {
                     await axios.patch(
                       `${BASE_URL}/items-list/${product.item_list_id}`,
                       BODY
                     );
-                    toast.success("Produto editado com sucesso!", {
-                      position: "top-right",
-                      autoClose: 2000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: "colored",
-                    });
-                    setQuantityUpdated(!quantityUpdated);
+                    notification.successProductEdited();
 
                     const newProductAdded = await axios.get(
                       `${BASE_URL}/items-list/${product.item_list_id}`
@@ -335,19 +245,7 @@ const CreateOrderPage = (props) => {
                       setTotalOrderAmount([...totalOrderAmount]);
                     }
                   } catch (err) {
-                    toast.error(
-                      "Houve um erro e o produto não pôde ser editado.",
-                      {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                      }
-                    );
+                    notification.errorProductCouldNotBeEdited();
                   }
                 }
               }}
@@ -386,30 +284,9 @@ const CreateOrderPage = (props) => {
                     );
                     setTotalOrderAmount(newTotalOrderAmount);
                   }
-                  toast.success("Produto deletado com sucesso!", {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                  });
+                  notification.successProductDeleted();
                 } catch (err) {
-                  toast.error(
-                    "Houve um erro e o produto não pôde ser deletado.",
-                    {
-                      position: "top-right",
-                      autoClose: 2000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: "colored",
-                    }
-                  );
+                  notification.errorProductCouldNotBeDeleted();
                 }
               }}
             >
@@ -426,44 +303,17 @@ const CreateOrderPage = (props) => {
 
   const onClickAddNewOrder = async () => {
     if (clientName === "") {
-      toast.warn("Informe o nome do cliente", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      notification.warnClientIsRequired();
       return;
     }
 
     if (deliveryDate === "") {
-      toast.warn("Informe a data de entrega", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      notification.warnDeliveryDateIsRequired();
       return;
     }
 
     if (productsListId.length < 1) {
-      toast.warn("Selecione ao menos um produto.", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      notification.warnProductIsRequired();
       return;
     }
 
@@ -491,31 +341,12 @@ const CreateOrderPage = (props) => {
       setQuantity(0);
       setListOfOrdersProducts(null);
       setTotalOrderAmount([]);
-      toast.success("Pedido cadastrado com sucesso!", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      
+      notification.successOrderAdded();
+
       return newOrder;
     } catch (error) {
-      toast.error(
-        "Houve um erro e o pedido não pôde ser cadastrado com sucesso!",
-        {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        }
-      );
+      notification.errorOrderCouldNotBeAdded();
     }
   };
 
@@ -544,7 +375,6 @@ const CreateOrderPage = (props) => {
               <LabelForm>Adicionar Produtos </LabelForm>
               <ToastContainer
                 position="top-right"
-                autoClose={2000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
