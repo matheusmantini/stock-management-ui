@@ -22,7 +22,7 @@ estoque.
 
 ## Deploy da Aplicação: :dash:
 
-> LINK
+> https://app-shopper-stock-management.herokuapp.com/
 
 ## Como rodar a aplicação:
 
