@@ -50,7 +50,6 @@ const CreateOrderPage = (props) => {
 
   const [clientName, setClientName] = useState("");
   const [deliveryDate, setDeliveryDate] = useState("");
-  let [totalOrderAmount, setTotalOrderAmount] = useState(0);
   const [listOfOrdersProducts, setListOfOrdersProducts] = useState([]);
   const [productsListId, setProductsListId] = useState([]);
   const [productItem, setProductItem] = useState({});
@@ -58,7 +57,7 @@ const CreateOrderPage = (props) => {
   const [quantity, setQuantity] = useState(0);
   const [quantityUpdated, setQuantityUpdated] = useState(false);
 
-  let [totalOrderAmountArrayTest, setTotalOrderAmountArrayTest] = useState([]);
+  let [totalOrderAmount, setTotalOrderAmount] = useState([]);
 
   const onChangeClientName = (event) => {
     setClientName(event.target.value);
@@ -176,12 +175,11 @@ const CreateOrderPage = (props) => {
             progress: undefined,
             theme: "colored",
           });
-          console.log("itemList.data.id", itemList.data);
           const itemListDetails = await axios.get(
             `${BASE_URL}/items-list/${itemList.data.id}`
           );
-          setTotalOrderAmountArrayTest([
-            ...totalOrderAmountArrayTest,
+          setTotalOrderAmount([
+            ...totalOrderAmount,
             { itemId: itemList.data.id, total: itemListDetails.data.total },
           ]);
           return itemList;
@@ -206,13 +204,7 @@ const CreateOrderPage = (props) => {
     addProductToList();
   };
 
-  console.log("totalOrderAmountArrayTest", totalOrderAmountArrayTest);
-
   /* Request to get all items list */
-
-  useEffect(() => {
-    console.log("listOfOrdersProducts", listOfOrdersProducts);
-  }, [listOfOrdersProducts]);
 
   useEffect(() => {
     productsListId &&
@@ -230,7 +222,6 @@ const CreateOrderPage = (props) => {
   const listOfProductsAddedToOrder =
     listOfOrdersProducts &&
     listOfOrdersProducts.map((product) => {
-      totalOrderAmount += product.total;
 
       return (
         <CardInputs key={Math.random()}>
@@ -277,34 +268,34 @@ const CreateOrderPage = (props) => {
                   const newProductAdded = await axios.get(
                     `${BASE_URL}/items-list/${product.item_list_id}`
                   );
-                  setTotalOrderAmount(newProductAdded.data.total);
 
                   if (
-                    !totalOrderAmountArrayTest.some(
+                    !totalOrderAmount.some(
                       (productItem) =>
                         productItem.itemId === product.item_list_id
                     )
                   ) {
-                    setTotalOrderAmountArrayTest([
-                      ...totalOrderAmountArrayTest,
+                    setTotalOrderAmount([
+                      ...totalOrderAmount,
                       {
                         itemId: product.item_list_id,
                         total: newProductAdded.data.total,
                       },
                     ]);
                   } else {
-                    const item = totalOrderAmountArrayTest.find(
+                    const item = totalOrderAmount.find(
                       (item) => item.itemId === product.item_list_id
                     );
-                    totalOrderAmountArrayTest[
-                      totalOrderAmountArrayTest.indexOf(item)
+                    totalOrderAmount[
+                      totalOrderAmount.indexOf(item)
                     ] = {
                       itemId: item.itemId,
                       total: newProductAdded.data.total,
                     };
+                    // Usado para atualizar o componente
+                    setTotalOrderAmount([
+                      ...totalOrderAmount])
                   }
-
-                  console.log("newProductAdded", newProductAdded);
                 } catch (err) {
                   toast.error(
                     "Houve um erro e o produto não pôde ser editado.",
@@ -343,7 +334,6 @@ const CreateOrderPage = (props) => {
                       }
                     );
                     setListOfOrdersProducts(newListOrderProducts);
-                    setTotalOrderAmount(0);
                   }
                   toast.success("Produto deletado com sucesso!", {
                     position: "top-right",
@@ -449,7 +439,6 @@ const CreateOrderPage = (props) => {
       setProductId(" ");
       setQuantity(0);
       setListOfOrdersProducts(null);
-      setTotalOrderAmount(0);
       toast.success("Pedido cadastrado com sucesso!", {
         position: "top-right",
         autoClose: 2000,
@@ -552,7 +541,7 @@ const CreateOrderPage = (props) => {
                   style: "currency",
                   currency: "BRL",
                 }).format(
-                  totalOrderAmountArrayTest.reduce(
+                  totalOrderAmount.reduce(
                     (acc, item) => acc + item.total,
                     0
                   )
