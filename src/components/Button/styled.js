@@ -14,13 +14,25 @@ export const Container = styled.button`
   :hover {
     opacity: 0.8;
   }
+
+  @media screen and (max-width: 767px) {
+    width: 70%;
+  }
 `;
 
 export const Text = styled.p`
   font-size: 26px;
+
+  @media screen and (max-width: 767px) {
+    font-size: 16px;
+  }
 `;
 
 export const Icon = styled.span`
   margin-right: 6px;
   font-size: 22px;
+
+  @media screen and (max-width: 767px) {
+    font-size: 16px;
+  }
 `;

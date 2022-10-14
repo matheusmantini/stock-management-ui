@@ -124,6 +124,11 @@ export const ContainerFormProducts = styled.form`
   justify-content: space-between;
   align-items: center;
   gap: 20px;
+
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    gap: 0;
+  }
 `;
 
 export const ContainerSendButton = styled.div`
@@ -158,6 +163,10 @@ export const InputFormProducts = styled.input`
   padding: 10px;
   margin: 10px 0;
   width: 20%;
+
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 export const SelectFormProducts = styled.select`
@@ -167,6 +176,12 @@ export const SelectFormProducts = styled.select`
   margin: 10px 0;
   width: 80%;
   background-color: var(--color-white);
+
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
 `;
 
 export const Icon = styled.div`
