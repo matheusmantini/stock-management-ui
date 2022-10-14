@@ -30,10 +30,10 @@ const OrdersPage = () => {
   useEffect(() => {
     setItensPedido(
       data &&
-      data.map((pedido) => {
-        const deliveryDate = new Date(
-          pedido.delivery_date
-        ).toLocaleDateString('pt-BR');
+      data.map((pedido) => {        
+        let getDate = pedido.delivery_date.slice(0, 10).split('-');
+        const deliveryDate = getDate[2] +'/'+ getDate[1] +'/'+ getDate[0];
+
         const shoppingList = pedido.shopping_list;
 
         const shoppingItems = shoppingList.map(
