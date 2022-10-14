@@ -1,74 +1,47 @@
-<<<<<<< HEAD
-# Getting Started with Create React App
+<h1 align="center"> Projeto Stock Management System - Front-end </h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![REST](https://img.shields.io/badge/REST%20API-%231572B6.svg?style=for-the-badge)
 
-## Available Scripts
+<p align="center">> Status do Projeto: Concluido :heavy_check_mark:</p>
+    
+## Funcionalidades
 
-In the project directory, you can run:
+  - [X] Visualizar todos os pedidos cadastrados;
+  - [X] Cadastrar novos pedidos
+  - [X] O usuário pode alterar a quantidade de itens já cadastrados ou excluir um item que ele
+não queira mais.
+  - [X] Debitar a quantidade do produto correspondente de seu estoque, sempre que um pedido for salvo.
+  - [X] Alertar o usuário caso a quantidade solicitada não esteja disponível no
+estoque.
+  - [X] Visualizar todos os produtos cadastrados com os respectivos estoques e preços unitários
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Deploy da Aplicação: :dash:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+> LINK
 
-### `npm test`
+## Como rodar a aplicação:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. No terminal, clone o projeto:
+> git clone https://github.com/matheusmantini/stock-management-ui.git
 
-### `npm run build`
+2. Entre na pasta do projeto:
+> cd stock-management-ui
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. Instale as dependências:
+> npm install
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. Execute a aplicação:
+> npm run start
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+5. Pronto, agora é possível acessar a aplicação a partir da rota http://localhost:3000/
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Desenvolvedor
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
-# stock-management-ui
->>>>>>> 8f02186605af201b840783143f7fb85730f9b60b
+[<img src="https://avatars.githubusercontent.com/u/71985890?v=4" width=115 > <br> <sub> Matheus Mantini </sub>](https://github.com/matheusmantini) |
+| :---: | 
