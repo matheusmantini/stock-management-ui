@@ -77,8 +77,7 @@ const CreateOrderPage = (props) => {
 
   const onSubmitAddProductToList = (e) => {
     e.preventDefault();
-    productItem.product_id = productId;
-    //setProductItem({...productItem, product_id: productId})
+    setProductItem({...productItem, product_id: productId})
     productItem.quantity = +quantity;
 
     if (productId === " ") {
@@ -453,6 +452,7 @@ const CreateOrderPage = (props) => {
       setProductId(" ");
       setQuantity(0);
       setListOfOrdersProducts(null);
+      setTotalOrderAmount([]);
       toast.success("Pedido cadastrado com sucesso!", {
         position: "top-right",
         autoClose: 2000,
