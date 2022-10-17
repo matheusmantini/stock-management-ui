@@ -50,7 +50,6 @@ const CreateOrderPage = (props) => {
       );
     });
 
-  const [productsListId, setProductsListId] = React.useState([]);
   const [productItem, setProductItem] = React.useState({});
   const [listOfOrdersProducts, setListOfOrdersProducts] = React.useState([]);
   const [totalOrderAmount, setTotalOrderAmount] = React.useState([]);
@@ -59,6 +58,7 @@ const CreateOrderPage = (props) => {
   const [deliveryDate, setDeliveryDate] = React.useState("");
   const [productId, setProductId] = React.useState(" ");
   const [quantity, setQuantity] = React.useState(0);
+  const [productsListId, setProductsListId] = React.useState([]);
 
   const onChangeClientName = (event) => {
     setClientName(event.target.value);
@@ -105,7 +105,7 @@ const CreateOrderPage = (props) => {
     }
 
     const addProductToList = async () => {
-      let validate = false;
+      let isValid = true;
 
       const BODY = {
         product_id: productId,
@@ -118,12 +118,12 @@ const CreateOrderPage = (props) => {
 
       if (productDetail.data.qty_stock === 0) {
         notification.warnUnavailableStock();
-        return;
+        isValid = false;
       }
 
       if (BODY.quantity > productDetail.data.qty_stock) {
         notification.warnUnavailableQuantity(productDetail.data.qty_stock);
-        validate = true;
+        isValid = false;
       }
 
       listOfOrdersProducts &&
@@ -132,11 +132,11 @@ const CreateOrderPage = (props) => {
             setProductId(" ");
             setQuantity(0);
             notification.warnProductAlreadyAdded();
-            validate = true;
+            isValid = false;
           }
         });
 
-      if (!validate) {
+      if (isValid) {
         try {
           const itemList = await axios.post(`${BASE_URL}/items-list`, BODY);
           setProductsListId([...productsListId, itemList.data.id]);
