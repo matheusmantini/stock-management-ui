@@ -87,7 +87,7 @@ const CreateOrderPage = (props) => {
         }
         setListOfOrdersProducts([...listOfOrdersProducts, product.data]);
       });
-  }, [productsListId]);
+  }, [productsListId,listOfOrdersProducts]);
 
   const onSubmitAddProductToList = (e) => {
     e.preventDefault();

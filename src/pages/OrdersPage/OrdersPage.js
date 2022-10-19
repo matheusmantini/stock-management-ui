@@ -36,8 +36,8 @@ const OrdersPage = () => {
           const shoppingList = pedido.shopping_list;
 
           const shoppingItems = shoppingList.map(
-            ({ product, quantity, price }) => (
-              <CardInputs key={product}>
+            ({ product, quantity, price }, index) => (
+              <CardInputs key={index}>
                 <ItemInput>
                   <b>Produto:</b> {product}
                 </ItemInput>
