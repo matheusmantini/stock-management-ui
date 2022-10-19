@@ -183,6 +183,10 @@ const CreateOrderPage = (props) => {
               title="Editar quantidade"
               onClick={async () => {
                 const newQuantity = +prompt("Digite a nova quantidade: ");
+                if(newQuantity === 0){
+                  notification.warnQuantityMustBeHigherThanZero();
+                  return;
+                }
                 product.quantity = newQuantity;
 
                 const BODY = {
