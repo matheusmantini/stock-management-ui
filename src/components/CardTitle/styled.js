@@ -15,6 +15,10 @@ export const ContainerTitle = styled.div`
   justify-content: center;
   align-items: center;
   width: 40%;
+  
+  @media screen and (max-width: 767px) {
+    width: 60%;
+  }
 `;
 
 export const Icon = styled.div`
@@ -45,6 +49,10 @@ export const Line = styled.div`
   height: 2px;
   background-color: var(--color-dark-green);
   margin-top: 8px;
+  
+  @media screen and (max-width: 767px) {
+    width: 60%;
+  }
 `;
 
 export const Text = styled.h2`
