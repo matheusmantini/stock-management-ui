@@ -330,7 +330,8 @@ const CreateOrderPage = (props) => {
       setDeliveryDate("");
       setProductId(" ");
       setQuantity(0);
-      setListOfOrdersProducts(null);
+      setListOfOrdersProducts([]);
+      setProductsListId([]);
       setTotalOrderAmount([]);
 
       notification.successOrderAdded();
